@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/firebase/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import Loading from "@/components/common/Loading";
+import { saveToLocalStorage } from "@/storage/localStorage";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -10,6 +11,7 @@ const Login = () => {
 
     useEffect(() => {
         if (user) {
+            saveToLocalStorage("userConfig", true);
             navigate("/home");
         }
     }, [user, navigate]);
@@ -18,7 +20,7 @@ const Login = () => {
         try {
             signInWithGoogle();
         } catch (error) {
-            console.log(error);
+            console.error(error);
             setError("Failed to log in with Google");
         }
     };
