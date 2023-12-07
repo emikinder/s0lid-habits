@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    font-family: "Inter", sans-serif;
+    /* line-height: 1.5; */
+    font-weight: 400;
+    background-color: #111111;
+}
+
+.font-bricolage {
+    font-family: "Bricolage Grotesque Variable", sans-serif;
+}
+
+.font-roboto {
+    font-family: "Roboto Mono Variable", sans-serif;
+}
+
+
