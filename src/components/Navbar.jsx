@@ -28,21 +28,23 @@ const Navbar = () => {
 
     return (
         <nav className="fixed w-full flex justify-between items-center px-3 py-2 bg-[#111111] text-white z-50">
-            <Avatar
-                src={user.photoURL}
-                alt="user photo"
-                size="lg"
-                onClick={handleAvatarClick}
-                referrerPolicy="no-referrer"
-            />
-            <span className="font-bold text-2xl tracking-[-1px]">
+            <div className="flex items-center gap-2 w-1/3">
+                <Avatar
+                    src={user.photoURL}
+                    alt="user photo"
+                    size="lg"
+                    onClick={handleAvatarClick}
+                    referrerPolicy="no-referrer"
+                />
+            </div>
+            <span className="font-bold text-2xl text-center tracking-[-1px] w-1/3">
                 Solid Habits
             </span>
             <button
-                className=""
+                className="w-1/3"
                 onClick={handleLogout}
             >
-                <ArrowLeftOnRectangleIcon className="h-6 w-6 text-white" />
+                <ArrowLeftOnRectangleIcon className="ml-auto h-6 w-6 text-white" />
             </button>
         </nav>
     );
