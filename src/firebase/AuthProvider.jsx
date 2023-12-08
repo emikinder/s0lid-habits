@@ -8,7 +8,7 @@ import {
 import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { auth, db } from "./firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const AuthContext = createContext(null);
 
@@ -25,16 +25,18 @@ const AuthProvider = ({ children }) => {
             const user = result.user;
 
             const userDoc = doc(db, "users", user.uid);
-            await setDoc(
-                userDoc,
-                {
+            const docSnap = await getDoc(userDoc);
+
+            if (!docSnap.exists()) {
+                const currentDate = new Date();
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                await setDoc(userDoc, {
                     uid: user.uid,
                     email: user.email,
                     name: user.displayName,
                     createdAt: new Date(),
-                },
-                { merge: true }
-            );
+                });
+            }
         } catch (error) {
             alert(error.message);
         }
@@ -51,9 +53,27 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+    // const getUserData = async (uid) => {
+    //     try {
+    //         const userDoc = doc(db, "users", uid);
+    //         const docSnap = await getDoc(userDoc);
+
+    //         if (docSnap.exists()) {
+    //             return docSnap.data();
+    //         } else {
+    //             console.log("No such document!");
+    //         }
+    //     } catch (error) {
+    //         console.log("Error getting document:", error);
+    //     }
+    // };
+
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            // if (currentUser) {
+            //     const user = await getUserData(currentUser.uid);
             setUser(currentUser);
+            // }
             setLoading(false);
         });
 
